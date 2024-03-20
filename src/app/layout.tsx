@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
+import { ClerkProvider } from '@clerk/nextjs';
+import { ptBR } from "@clerk/localizations"
 import "./globals.css";
 
 const font = Nunito({ subsets: ["latin"] });
@@ -15,10 +17,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-br">
-      <body className={font.className}>
-        {children}
-      </body>
-    </html>
+    <ClerkProvider localization={ptBR}>
+      <html lang="pt-br">
+        <body className={font.className}>
+          {children}
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
