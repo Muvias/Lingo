@@ -20,7 +20,7 @@ export default function Home() {
           Aprenda, pratique, e masterize novas linguas com o Lingo.
         </h1>
 
-        <div>
+        <div className="flex flex-col items-center gap-y-3 max-w-[330px] w-full">
           <ClerkLoading>
             <LoaderIcon className="h-5 w-5 text-muted-foreground animate-spin" />
           </ClerkLoading>
