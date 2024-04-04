@@ -6,9 +6,11 @@ export default function MainLayout({ children }: Readonly<{ children: React.Reac
         <>
             <MobileHeader />
             <Sidebar className="hidden lg:flex" />
-            
+
             <main className="lg:pl-[256px] h-full pt-[50px] lg:pt-0">
-                {children}
+                <div className="max-w-[1056px] h-full mx-auto pt-6">
+                    {children}
+                </div>
             </main>
         </>
     )
