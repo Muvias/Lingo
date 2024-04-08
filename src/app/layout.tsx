@@ -3,6 +3,7 @@ import { Nunito } from "next/font/google";
 import { ClerkProvider } from '@clerk/nextjs';
 import { ptBR } from "@clerk/localizations"
 import "./globals.css";
+import { Toaster } from "sonner";
 
 const font = Nunito({ subsets: ["latin"] });
 
@@ -20,6 +21,8 @@ export default function RootLayout({
     <ClerkProvider localization={ptBR}>
       <html lang="pt-br">
         <body className={font.className}>
+          <Toaster />
+
           {children}
         </body>
       </html>
