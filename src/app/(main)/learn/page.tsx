@@ -20,15 +20,15 @@ export default async function Page() {
         <div className="flex flex-row-reverse gap-12 px-6">
             <StickyWrapper>
                 <UserProgress
-                    activeCourse={{ title: "Espanhol", imageSrc: "es.svg" }}
-                    hearts={5}
-                    points={100}
+                    activeCourse={userProgress.activeCourse}
+                    hearts={userProgress.hearts}
+                    points={userProgress.points}
                     hasActiveSubscription={false}
                 />
             </StickyWrapper>
 
             <FeedWrapper>
-                <Header title="Espanhol" />
+                <Header title={userProgress.activeCourse.title} />
             </FeedWrapper>
         </div>
     )
