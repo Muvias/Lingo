@@ -1,21 +1,25 @@
 import { FeedWrapper } from "@/components/FeedWrapper";
 import { StickyWrapper } from "@/components/StickyWrapper";
 import { UserProgress } from "@/components/UserProgress";
-import { getUnits, getUserProgress } from "@/db/queries";
+import { getCourseProgress, getLessonPercentage, getUnits, getUserProgress } from "@/db/queries";
 import { redirect } from "next/navigation";
 import { Header } from "./Header";
 import { Unit } from "./Unit";
 
 export default async function Page() {
     const userProgressData = getUserProgress()
+    const courseProgressData = getCourseProgress()
+    const lessonPercentageData = getLessonPercentage()
     const unitsData = getUnits()
 
-    const [userProgress, units] = await Promise.all([
+    const [userProgress, courseProgress, lessonPercentage, units] = await Promise.all([
         userProgressData,
+        courseProgressData,
+        lessonPercentageData,
         unitsData
     ])
 
-    if (!userProgress || !userProgress.activeCourse) {
+    if (!userProgress || !userProgress.activeCourse || !courseProgress) {
         redirect("/courses")
     }
 
@@ -38,14 +42,14 @@ export default async function Page() {
                         key={unit.id}
                         className="mb-10"
                     >
-                        <Unit 
+                        <Unit
                             id={unit.id}
                             order={unit.order}
                             description={unit.description}
                             title={unit.title}
                             lessons={unit.lessons}
-                            activeLesson={undefined}
-                            activeLessonPercentage={0}
+                            activeLesson={courseProgress.activeLesson}
+                            activeLessonPercentage={lessonPercentage}
                         />
                     </div>
                 ))}
