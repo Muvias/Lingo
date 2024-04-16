@@ -1,4 +1,5 @@
 import { Progress } from "@/components/ui/progress"
+import { useExitModal } from "@/store/use-exit-modal"
 import { InfinityIcon, XIcon } from "lucide-react"
 import Image from "next/image"
 
@@ -9,10 +10,12 @@ interface HeaderProps {
 }
 
 export function Header({ hearts, percentage, hasActiveSubscription }: HeaderProps) {
+    const { open } = useExitModal()
+
     return (
         <header className="flex items-center justify-between max-w-[1140px] w-full mx-auto gap-x-7 pt-5 lg:pt-[50px] px-2.5">
             <XIcon
-                onClick={() => { }}
+                onClick={open}
                 className="text-slate-500 hover:opacity-75 transition cursor-pointer"
             />
 
