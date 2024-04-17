@@ -25,7 +25,7 @@ export function Challenge({ status, options, onSelect, type, disabled, selectedO
                     id={option.id}
                     text={option.text}
                     imageSrc={option.imageSrc}
-                    shortchut={`${i + 1}`}
+                    shortcut={`${i + 1}`}
                     selected={selectedOption === option.id}
                     onClick={() => onSelect(option.id)}
                     status={status}

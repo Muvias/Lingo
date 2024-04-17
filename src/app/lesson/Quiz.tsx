@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Header } from "./Header";
 import { QuestionBubble } from "./(components)/QuestionBubble";
 import { Challenge } from "./(components)/Challenge";
+import { Footer } from "./Footer";
 
 interface QuizProps {
     initialLessonId: number
@@ -18,6 +19,8 @@ export function Quiz({ initialLessonId, initialHearts, initialLessonChallenges, 
     const [hearts, setHearts] = useState(initialHearts)
     const [percentage, setPercentage] = useState(initialPercentage)
     const [challenges] = useState(initialLessonChallenges)
+    const [selectedOption, setSelectedOption] = useState<number>()
+    const [status, setStatus] = useState<"correct" | "wrong" | "none">("none")
     const [activeIndex, setActiveIndex] = useState(() => {
         const uncompletedIndex = challenges.findIndex((challenge) => !challenge.completed)
 
@@ -28,6 +31,12 @@ export function Quiz({ initialLessonId, initialHearts, initialLessonChallenges, 
     const options = challenge?.challengeOptions ?? [];
 
     const title = challenge.type === "ASSIST" ? "Selecione a resposta correta" : challenge.question;
+
+    function onSelect(id: number) {
+        if (status !== "none") return;
+
+        setSelectedOption(id);
+    }
 
     return (
         <>
@@ -51,11 +60,11 @@ export function Quiz({ initialLessonId, initialHearts, initialLessonChallenges, 
                                 />
                             )}
 
-                            <Challenge 
+                            <Challenge
                                 options={options}
-                                onSelect={() => {}}
-                                status="none"
-                                selectedOption={undefined}
+                                onSelect={onSelect}
+                                status={status}
+                                selectedOption={selectedOption}
                                 disabled={false}
                                 type={challenge.type}
                             />
@@ -63,6 +72,12 @@ export function Quiz({ initialLessonId, initialHearts, initialLessonChallenges, 
                     </div>
                 </div>
             </div>
+
+            <Footer
+                disabled={!selectedOption}
+                status={status}
+                onCheck={() => {}}
+            />
         </>
     )
 }

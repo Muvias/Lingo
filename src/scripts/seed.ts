@@ -107,26 +107,26 @@ async function main() {
             {
                 id: 1,
                 challengeId: 1,
-                imageSrc: "/man.svg",
+                imageSrc: "/boy.svg",
                 correct: true,
                 text: "El hombre",
-                audioSrc: "/es_man.mp3"
+                audioSrc: "/es_boy.mp3"
             },
             {
                 id: 2,
                 challengeId: 1,
-                imageSrc: "/woman.svg",
+                imageSrc: "/girl.svg",
                 correct: false,
                 text: "La mujer",
-                audioSrc: "/es_woman.mp3"
+                audioSrc: "/es_girl.mp3"
             },
             {
                 id: 3,
                 challengeId: 1,
-                imageSrc: "/robot.svg",
+                imageSrc: "/zombie.svg",
                 correct: false,
-                text: "El robot",
-                audioSrc: "/es_robot.mp3"
+                text: "El zombie",
+                audioSrc: "/es_zombie.mp3"
             }
         ]);
 
