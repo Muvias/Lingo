@@ -1,11 +1,15 @@
 "use client"
 
+import { useState, useTransition } from "react";
 import { challengeOptions, challenges } from "@/db/schema"
-import { useState } from "react";
+
 import { Header } from "./Header";
+import { Footer } from "./Footer";
 import { QuestionBubble } from "./(components)/QuestionBubble";
 import { Challenge } from "./(components)/Challenge";
-import { Footer } from "./Footer";
+import { upsertChallengeProgress } from "@/actions/challenge-progress";
+import { toast } from "sonner";
+import { reduceHearts } from "@/actions/user-progress";
 
 interface QuizProps {
     initialLessonId: number
@@ -16,6 +20,8 @@ interface QuizProps {
 }
 
 export function Quiz({ initialLessonId, initialHearts, initialLessonChallenges, initialPercentage, userSubscription }: QuizProps) {
+    const [pending, startTransition] = useTransition()
+
     const [hearts, setHearts] = useState(initialHearts)
     const [percentage, setPercentage] = useState(initialPercentage)
     const [challenges] = useState(initialLessonChallenges)
@@ -32,10 +38,75 @@ export function Quiz({ initialLessonId, initialHearts, initialLessonChallenges, 
 
     const title = challenge.type === "ASSIST" ? "Selecione a resposta correta" : challenge.question;
 
+    function onNext() {
+        setActiveIndex((current) => current + 1)
+    }
+
     function onSelect(id: number) {
         if (status !== "none") return;
 
         setSelectedOption(id);
+    }
+
+    function onContinue() {
+        if (!selectedOption) return;
+
+        if (status === "wrong") {
+            setStatus("none")
+            setSelectedOption(undefined)
+
+            return;
+        }
+
+        if (status === "correct") {
+            onNext()
+
+            setStatus("none")
+            setSelectedOption(undefined)
+
+            return;
+        }
+
+        const correctOption = options.find((option) => option.correct);
+
+        if (!correctOption) return;
+
+        if (correctOption.id === selectedOption) {
+            startTransition(() => {
+                upsertChallengeProgress(challenge.id)
+                    .then((response) => {
+                        if (response?.error === "hearts") {
+                            console.error("Missing Hearts")
+
+                            return;
+                        }
+
+                        setStatus("correct")
+                        setPercentage((prev) => prev + 100 / challenges.length)
+
+                        if (initialPercentage === 100) {
+                            setHearts((prev) => Math.min(prev + 1, 5))
+                        }
+                    }).catch(() => toast.error("Alguma coisa deu errado! Por favor tente novamente."))
+            })
+        } else {
+            startTransition(() => {
+                reduceHearts(challenge.id)
+                    .then((response) => {
+                        if (response?.error === "hearts") {
+                            console.error("Missing Hearts")
+
+                            return;
+                        }
+
+                        setStatus("wrong")
+
+                        if (!response?.error) {
+                            setHearts((prev) => Math.max(prev - 1, 0))
+                        }
+                    }).catch(() => toast.error("Alguma coisa deu errado! Por favor tente novamente."))
+            })
+        }
     }
 
     return (
@@ -65,7 +136,7 @@ export function Quiz({ initialLessonId, initialHearts, initialLessonChallenges, 
                                 onSelect={onSelect}
                                 status={status}
                                 selectedOption={selectedOption}
-                                disabled={false}
+                                disabled={pending}
                                 type={challenge.type}
                             />
                         </div>
@@ -74,9 +145,9 @@ export function Quiz({ initialLessonId, initialHearts, initialLessonChallenges, 
             </div>
 
             <Footer
-                disabled={!selectedOption}
+                disabled={pending || !selectedOption}
                 status={status}
-                onCheck={() => {}}
+                onCheck={onContinue}
             />
         </>
     )

@@ -99,13 +99,26 @@ async function main() {
                 lessonId: 1,
                 type: "SELECT",
                 order: 1,
-                question: 'Qual desses dois é "o homem"?',
-            }
+                question: 'Qual desses é "o homem"?',
+            },
+            {
+                id: 2,
+                lessonId: 1,
+                type: "ASSIST",
+                order: 2,
+                question: '"o homem"?',
+            },
+            {
+                id: 3,
+                lessonId: 1,
+                type: "SELECT",
+                order: 3,
+                question: 'Qual desses é "o zumbi"?',
+            },
         ]);
 
         await db.insert(schema.challengeOptions).values([
             {
-                id: 1,
                 challengeId: 1,
                 imageSrc: "/boy.svg",
                 correct: true,
@@ -113,7 +126,6 @@ async function main() {
                 audioSrc: "/es_boy.mp3"
             },
             {
-                id: 2,
                 challengeId: 1,
                 imageSrc: "/girl.svg",
                 correct: false,
@@ -121,10 +133,54 @@ async function main() {
                 audioSrc: "/es_girl.mp3"
             },
             {
-                id: 3,
                 challengeId: 1,
                 imageSrc: "/zombie.svg",
                 correct: false,
+                text: "El zombie",
+                audioSrc: "/es_zombie.mp3"
+            }
+        ]);
+
+        await db.insert(schema.challengeOptions).values([
+            {
+                challengeId: 2,
+                correct: true,
+                text: "El hombre",
+                audioSrc: "/es_boy.mp3"
+            },
+            {
+                challengeId: 2,
+                correct: false,
+                text: "La mujer",
+                audioSrc: "/es_girl.mp3"
+            },
+            {
+                challengeId: 2,
+                correct: false,
+                text: "El zombie",
+                audioSrc: "/es_zombie.mp3"
+            }
+        ]);
+
+        await db.insert(schema.challengeOptions).values([
+            {
+                challengeId: 3,
+                imageSrc: "/boy.svg",
+                correct: false,
+                text: "El hombre",
+                audioSrc: "/es_boy.mp3"
+            },
+            {
+                challengeId: 3,
+                imageSrc: "/girl.svg",
+                correct: false,
+                text: "La mujer",
+                audioSrc: "/es_girl.mp3"
+            },
+            {
+                challengeId: 3,
+                imageSrc: "/zombie.svg",
+                correct: true,
                 text: "El zombie",
                 audioSrc: "/es_zombie.mp3"
             }
