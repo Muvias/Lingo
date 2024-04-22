@@ -6,7 +6,7 @@ import { useMedia, useKey } from "react-use"
 interface FooterProps {
     disabled?: boolean
     status: "correct" | "wrong" | "none" | "completed"
-    lessonId?: boolean
+    lessonId?: number;
     onCheck: () => void
 }
 
