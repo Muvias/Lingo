@@ -1,6 +1,6 @@
 "use client"
 
-import { challengeOptions, challenges } from "@/db/schema";
+import { challengeOptions, challenges, userSubscription } from "@/db/schema";
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -26,7 +26,7 @@ interface QuizProps {
     initialLessonChallenges: (typeof challenges.$inferSelect & { completed: boolean; challengeOptions: typeof challengeOptions.$inferSelect[] })[]
     initialHearts: number
     initialPercentage: number
-    userSubscription: any;
+    userSubscription: typeof userSubscription.$inferSelect & { isActive: boolean } | null;
 }
 
 export function Quiz({ initialLessonId, initialHearts, initialLessonChallenges, initialPercentage, userSubscription }: QuizProps) {

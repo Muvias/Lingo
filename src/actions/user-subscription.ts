@@ -15,9 +15,9 @@ export async function createStripeUrl() {
 
     const userSubscription = await getUserSubscription();
 
-    if (userSubscription && userSubscription.stripeCustomeId) {
+    if (userSubscription && userSubscription.stripeCustomerId) {
         const stripeSession = await stripe.billingPortal.sessions.create({
-            customer: userSubscription.stripeCustomeId,
+            customer: userSubscription.stripeCustomerId,
             return_url: returnUrl
         });
 

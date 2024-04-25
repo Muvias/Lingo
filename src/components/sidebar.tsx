@@ -34,7 +34,7 @@ export function Sidebar({ className }: Props) {
                 />
 
                 <SidebarItem
-                    label="Ligas"
+                    label="Classificação"
                     href="/leaderboard"
                     iconSrc="/leaderboard.svg"
                 />
