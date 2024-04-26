@@ -1,8 +1,12 @@
-import { FeedWrapper } from "@/components/FeedWrapper";
-import { StickyWrapper } from "@/components/StickyWrapper";
-import { UserProgress } from "@/components/UserProgress";
 import { getCourseProgress, getLessonPercentage, getUnits, getUserProgress, getUserSubscription } from "@/db/queries";
 import { redirect } from "next/navigation";
+
+import { FeedWrapper } from "@/components/FeedWrapper";
+import { Promo } from "@/components/Promo";
+import { StickyWrapper } from "@/components/StickyWrapper";
+import { UserProgress } from "@/components/UserProgress";
+import { Quests } from "@/components/Quests";
+
 import { Header } from "./Header";
 import { Unit } from "./Unit";
 
@@ -25,6 +29,8 @@ export default async function Page() {
         redirect("/courses")
     }
 
+    const hasSubscription = !!userSubscription?.isActive;
+
     return (
         <div className="flex flex-row-reverse gap-12 px-6">
             <StickyWrapper>
@@ -32,8 +38,14 @@ export default async function Page() {
                     activeCourse={userProgress.activeCourse}
                     hearts={userProgress.hearts}
                     points={userProgress.points}
-                    hasActiveSubscription={!!userSubscription?.isActive}
+                    hasActiveSubscription={hasSubscription}
                 />
+
+                {!hasSubscription &&
+                    <Promo />
+                }
+
+                <Quests points={userProgress.points} />
             </StickyWrapper>
 
             <FeedWrapper>

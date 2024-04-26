@@ -1,4 +1,6 @@
 import { FeedWrapper } from "@/components/FeedWrapper";
+import { Promo } from "@/components/Promo";
+import { Quests } from "@/components/Quests";
 import { StickyWrapper } from "@/components/StickyWrapper";
 import { UserProgress } from "@/components/UserProgress";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
@@ -31,6 +33,12 @@ export default async function LeaderboardPage() {
                     points={userProgress.points}
                     hasActiveSubscription={hasSubscription}
                 />
+
+                {!hasSubscription &&
+                    <Promo />
+                }
+
+                <Quests points={userProgress.points} />
             </StickyWrapper>
 
             <FeedWrapper>
