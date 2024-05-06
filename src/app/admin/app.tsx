@@ -3,6 +3,12 @@
 import simpleRestProvider from "ra-data-simple-rest"
 import { Admin, Resource } from "react-admin"
 
+import { ChallengeCreate } from "./challenge/create"
+import { ChallengeEdit } from "./challenge/edit"
+import { ChallengeList } from "./challenge/list"
+import { ChallengeOptionCreate } from "./challengeOption/create"
+import { ChallengeOptionEdit } from "./challengeOption/edit"
+import { ChallengeOptionList } from "./challengeOption/list"
 import { CourseCreate } from "./course/create"
 import { CourseEdit } from "./course/edit"
 import { CourseList } from "./course/list"
@@ -38,6 +44,21 @@ export default function App() {
                 create={LessonCreate}
                 edit={LessonEdit}
                 recordRepresentation="title"
+            />
+            <Resource
+                name="challenges"
+                list={ChallengeList}
+                create={ChallengeCreate}
+                edit={ChallengeEdit}
+                recordRepresentation="question"
+            />
+            <Resource
+                name="challengeOptions"
+                list={ChallengeOptionList}
+                create={ChallengeOptionCreate}
+                edit={ChallengeOptionEdit}
+                recordRepresentation="text"
+                options={{ label: "Challenge Options" }}
             />
         </Admin>
     )
